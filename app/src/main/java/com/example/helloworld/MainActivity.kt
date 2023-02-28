@@ -1,35 +1,32 @@
 package com.example.helloworld
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
-import kotlinx.android.synthetic.main.activity_main.*
-
+import androidx.appcompat.app.AppCompatActivity
+import com.example.helloworld.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-    }
+        binding = ActivityMainBinding.inflate (layoutInflater)
+        val view = binding.root
+        setContentView (view)
+        var btnCalcular = findViewById<Button>(binding.idButton.id)
 
-    fun cliqueBotao(view: View) {
-        if(txtNome.text.trim().isEmpty()) {
-            Toast.makeText(this,"Informe um nome.", Toast.LENGTH_LONG).show()
-        } else {
-            val msg = "Olá ${txtNome.text}!"
-            exibirMensagem("Saudação", msg)
-        }
-
-    }
-
-    fun exibirMensagem(titulo: String, mensagem:String) {
-        val builder = AlertDialog.Builder(this)
-        builder
-            .setTitle(titulo)
-            .setMessage(mensagem)
-            .setPositiveButton("OK", null)
-        builder.create().show()
+        btnCalcular.setOnClickListener { view: View? ->
+                var salario = binding.txtNome.text.toString().toInt()
+                var mensagem = ""
+            if (salario >= 1300) {
+                mensagem = "Você vai pagar 40% de imposto"
+            } else if (salario < 1300) {
+                mensagem = "Você não paga imposto"
+            } else {
+                mensagem = "Tanto faz"
+            }
+            Toast.makeText(this, mensagem, Toast.LENGTH_LONG).show()
+            }
     }
 }
